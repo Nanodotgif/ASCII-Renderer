@@ -47,7 +47,7 @@ def toggle_options(e):
 def every_frame():
 
     global debug_info
-    debug_info = f"Count: {int(ar.frame_id / ar.FRAME_RATE)}"
+    debug_info = f"Count: {int(ar.frame_id / ar.FRAME_RATE)} || Frame: {ar.frame_id} || Frame Delta: {ar.frame_delta}"
     top_bar.visual = [f'===[q: quit | o: options]{"".join(["=" for i in range(ar.CANVAS_SIZE[0] - (27+len(debug_info)))])}[{debug_info}]']
     if options_open:
         options_menu_renderable.set_visibility(True)
@@ -55,6 +55,7 @@ def every_frame():
         options_menu_renderable.set_visibility(False)
     text.change_position((text.x + 1, text.y))
     wow.change_position((wow.x + int(10/ar.frame_id), wow.y + int(10/ar.frame_id)))
+    # time.sleep(3)
     # if ar.frame_id %3 ==0:
     #     rhombus.set_visibility(not rhombus.visible)
 

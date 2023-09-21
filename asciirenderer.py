@@ -1,3 +1,7 @@
+# TODO: Prevent sprites from overlapping 
+# TODO: Colors
+# TODO: Skip frames that take longer than frame delta(somehow)
+# TODO: Proper z-index value system for drawing visuals
 class Renderable:
     def __init__(self, anchor_pos, visual, visible=True):
         self.x = anchor_pos[0] # Top left
@@ -19,11 +23,11 @@ import os
 CANVAS_SIZE = (100, 30)
 BACKGROUND_CHAR = " "
 FRAME_RATE = 20
-DELTA_TIME = 1/FRAME_RATE
 frame = []
 objects = []
 frame_id = 0
 events = {}
+frame_delta = 0
 
 def clear_frame_data():
     global frame
@@ -76,6 +80,7 @@ def create_renderable(anchor_pos, visual, visible=True):
 def main_loop(callback):
     global frame_id
     global FRAME_RATE
+    global frame_delta
     while True:
         start_of_frame_time = time.time()
         frame_id += 1
@@ -94,8 +99,7 @@ def start(callback):
 
 def stop():
     os._exit(1)
-# TODO: Prevent sprites from overlapping 
-# TODO: Colors
+
 
 def create_event(frame_to_execute, callback):
     global frame_id
