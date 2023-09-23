@@ -1,11 +1,11 @@
 # Create visuals to use with the ASCII Renderer.
 output = []
 name = input("Name your renderable(python variable format): ")
-print("Create your visual from top to bottom. For transparency, use '`', otherwise use ' '.")
+print("Create your visual from top to bottom.")
 user_input = ""
 i = 0
 while user_input != "done":
-    user_input = input(f"({i}): ")
+    user_input = input(f"({i:02}): ")
     if user_input == "undo":
         i -= 1
         continue
@@ -14,4 +14,4 @@ while user_input != "done":
     else:
         output.append(user_input)
     i+=1
-print(f"{'_'.join(name.lower().split(' '))} = asciirenderer.create_renderable((0,0), {output[:-1]})")
+print(f"{'_'.join(name.lower().split(' '))} = asciirenderer.create_renderable(0,0, {output[:-1]})")
