@@ -36,16 +36,18 @@ def render(stdscr):
     stdscr.clear()
     for renderable in objects:
         if renderable.visible == True:
+            renderable_x_rounded = round(renderable.x)
+            renderable_y_rounded = round(renderable.y)
             for r in range(len(renderable.visual)):
                 for c in range(len(renderable.visual[r])):
-                    current_char = chr(stdscr.inch(renderable.y+r, renderable.x+c) & 0xFF) # Get character where we are currently working
+                    current_char = chr(stdscr.inch(renderable_y_rounded+r, renderable_x_rounded+c) & 0xFF) # Get character where we are currently working
                     if renderable.visual[r][c] == "`": # If the character we want to write is "`", this means put a space regardless
-                        stdscr.addch(renderable.y + r, renderable.x + c, "\uFEFF")
+                        stdscr.addch(renderable_y_rounded + r, renderable_x_rounded + c, "\uFEFF")
                     elif current_char != ' ' and current_char != "": # If there is not a space or nothing
                         continue # Don't overrite it, this allows for transparency
                     else: # Write intended character
                         try:
-                            stdscr.addch(renderable.y + r, renderable.x + c, renderable.visual[r][c], curses.color_pair(renderable.color) | renderable.style)
+                            stdscr.addch(renderable_y_rounded+r, renderable_x_rounded+c, renderable.visual[r][c], curses.color_pair(renderable.color) | renderable.style)
                         except:
                             pass
     stdscr.refresh()
