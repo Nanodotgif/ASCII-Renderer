@@ -5,7 +5,7 @@ import os
 ar.FRAME_RATE = 30
 debug_info = ''
 top_bar = ar.create_renderable(0,0, [' '])
-ball_vel_x = 1
+ball_vel_x = 0.5
 ball_vel_y = 0
 
 paddle_left = ar.create_renderable(0,0, ['█', '█', '█'], visible=True, color=3)
@@ -30,29 +30,29 @@ def player_move(paddle, direction):
 def check_collisions():
     global ball_vel_x
     global ball_vel_y
-    for paddle in (paddle_left, paddle_right):
-        if ball.x == paddle.x :
-            if ball.y == paddle.y:
+    for paddle in (paddle_left, paddle_right): # FIXME: Need to use rounded values, should fix in main file
+        if ball.x_rounded() == paddle.x :
+            if ball.y_rounded() == paddle.y:
                 ball.color = paddle.color
                 ball_vel_x *= -1
-                ball_vel_y = -1
+                ball_vel_y = -0.5
                 pass
-            elif ball.y == paddle.y+1:
+            elif ball.y_rounded() == paddle.y+1:
                 ball.color = paddle.color
                 ball_vel_x *= -1
                 ball_vel_y = 0
                 pass
-            elif ball.y == paddle.y+2:
+            elif ball.y_rounded() == paddle.y+2:
                 ball.color = paddle.color
                 ball_vel_x *= -1
-                ball_vel_y = 1
+                ball_vel_y = 0.5
                 pass
-    if ball.y == 0 or ball.y == ar.HEIGHT:
+    if ball.y_rounded() == 0 or ball.y_rounded() == ar.HEIGHT:
         ball_vel_y *= -1
-    if ball.x == 0 or ball.x == ar.WIDTH:
+    if ball.x_rounded() == 0 or ball.x_rounded() == ar.WIDTH:
         ball.set_position(ar.get_center()[0], ar.get_center()[1])
         ball.set_color(1)
-
+    pass
 
 
 kb.add_hotkey("q", terminate)

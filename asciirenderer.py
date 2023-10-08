@@ -2,6 +2,8 @@ class Renderable:
     def __init__(self, anchor_x, anchor_y, visual, visible=True, style=0, color=7):
         self.x = anchor_x # Top left
         self.y = anchor_y # Top left
+        self.x_rounded = lambda: round(self.x)
+        self.y_rounded = lambda: round(self.y)
         self.visual = visual
         self.width = len(max(visual))
         self.height = len(visual)
@@ -36,18 +38,18 @@ def render(stdscr):
     stdscr.clear()
     for renderable in objects:
         if renderable.visible == True:
-            renderable_x_rounded = round(renderable.x)
-            renderable_y_rounded = round(renderable.y)
+            # renderable.x_rounded = round(renderable.x)
+            # renderable_y_rounded = round(renderable.y)
             for r in range(len(renderable.visual)):
                 for c in range(len(renderable.visual[r])):
-                    current_char = chr(stdscr.inch(renderable_y_rounded+r, renderable_x_rounded+c) & 0xFF) # Get character where we are currently working
+                    current_char = chr(stdscr.inch(renderable.y_rounded()+r, renderable.x_rounded()+c) & 0xFF) # Get character where we are currently working
                     if renderable.visual[r][c] == "`": # If the character we want to write is "`", this means put a space regardless
-                        stdscr.addch(renderable_y_rounded + r, renderable_x_rounded + c, "\uFEFF")
+                        stdscr.addch(renderable.y_rounded() + r, renderable.x_rounded() + c, "\uFEFF")
                     elif current_char != ' ' and current_char != "": # If there is not a space or nothing
                         continue # Don't overrite it, this allows for transparency
                     else: # Write intended character
                         try:
-                            stdscr.addch(renderable_y_rounded+r, renderable_x_rounded+c, renderable.visual[r][c], curses.color_pair(renderable.color) | renderable.style)
+                            stdscr.addch(renderable.y_rounded()+r, renderable.x_rounded()+c, renderable.visual[r][c], curses.color_pair(renderable.color) | renderable.style)
                         except:
                             pass
     stdscr.refresh()
